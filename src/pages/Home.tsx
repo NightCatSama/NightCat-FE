@@ -1,11 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
+import Balls from '../libs/balls'
+import styled from 'styled-components'
 
 export function Home() {
-  const [name, setName] = useState('nightcat')
+  const BallCanvas = styled.canvas`
+    width: 100vw;
+    height: 100vh;
+  `
+  useEffect(() => {
+    new Balls('canvas')
+  })
   return (
     <>
-      <h1>Hello {name}</h1>
-      <button onClick={() => setName('夜喵')}>change</button>
+      <BallCanvas id="canvas"></BallCanvas>
     </>
   )
 }
