@@ -162,6 +162,8 @@ export default class Balls {
   private bg!: IColor
   /** 文本颜色数据 */
   private text!: IColor
+  /** 字体是否加载完毕 */
+  private isLoadFont: boolean = false
 
   constructor(id: string) {
     this.canvas = document.getElementById(id) as HTMLCanvasElement
@@ -187,9 +189,23 @@ export default class Balls {
     this.bg = this.initGradientData(this.bgPeriod, this.bgColor)
     this.text = this.initGradientData(this.textPeriod, this.textColor)
 
+    const fonts = (document as any).fonts
+    if (fonts) {
+      if (fonts.check(this.font)) {
+        this.isLoadFont = true
+      } else {
+        fonts.load(this.font).then(() => {
+          this.isLoadFont = true
+        })
+      }
+    } else {
+      this.isLoadFont = true
+    }
+
     this.clickHandle = this.clickHandle.bind(this)
     this.mouseHandle = this.mouseHandle.bind(this)
     this.init = this.init.bind(this)
+
     this.bindEvent()
     this.init()
     this.start()
@@ -249,7 +265,7 @@ export default class Balls {
       this.ctx.clearRect(0, 0, this.width, this.height)
       this.renderBackground()
       this.render()
-      this.renderText()
+      this.isLoadFont && this.renderText()
       this.update()
       requestAnimationFrame(step)
     }
