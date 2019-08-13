@@ -1,18 +1,11 @@
-import React, { useEffect } from 'react'
-import Balls from '../libs/balls'
-import styled from 'styled-components'
+import React, { useEffect, useContext } from 'react'
+import styled, { ThemeContext } from 'styled-components'
+import { Page } from '../components/Page'
 
 export function Home() {
-  const BallCanvas = styled.canvas`
-    width: 100vw;
-    height: 100vh;
-  `
-  useEffect(() => {
-    new Balls('canvas')
-  })
   return (
-    <>
-      <BallCanvas id="canvas"></BallCanvas>
-    </>
+    <Page full center="all">
+      Home Page
+    </Page>
   )
 }
